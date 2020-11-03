@@ -78,7 +78,7 @@ func _get_property_list():
 	})
 
 	#
-	# longitude_value
+	# LONGITUDE
 	#
 
 	properties.append(
@@ -117,7 +117,7 @@ func _get_property_list():
 	properties.append({ name = "longitude_unrestricted", type = TYPE_BOOL })
 
 	#
-	# latitude_value
+	# LATITUDE
 	#
 
 	properties.append(
@@ -156,7 +156,7 @@ func _get_property_list():
 	})
 
 	#
-	# Input
+	# INPUT
 	#
 
 	properties.append(
@@ -182,6 +182,7 @@ func _get_property_list():
 
 func _update() -> void:
 
+	if Engine.is_editor_hint(): return
 	if not has_node(target): return
 
 	var target_pos : Vector3 = get_node(target).global_transform.origin
@@ -200,7 +201,7 @@ func _update() -> void:
 	translation = target_pos
 
 	var lng : float = deg2rad((longitude_value))
-	var lat : float = deg2rad((90-latitude_value))
+	var lat : float = deg2rad((90-latitude_value-1e-10))
 
 	translation += Vector3(
 		sin(lat) * cos(lng),
@@ -209,10 +210,6 @@ func _update() -> void:
 	) * zoom_value
 
 	var dir : Vector3 = (target_pos-translation).normalized()
-
-	if (abs(dir.dot(Vector3.UP)) == 1):
-
-		translation += Vector3.RIGHT*1e-10
 
 	look_at(target_pos, Vector3.UP)
 
@@ -234,6 +231,7 @@ func _ready() -> void:
 
 func _process(delta) -> void:
 
+	if Engine.is_editor_hint(): return
 	if not input_button_input: return
 
 	var d : float = delta

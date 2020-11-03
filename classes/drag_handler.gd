@@ -34,8 +34,8 @@ func _input(event : InputEvent) -> void:
 
 		State.IDLE:
 
-			if action_trigger == Trigger.HOLD and event.is_action_pressed("game_drag")\
-			or action_trigger == Trigger.TOGGLE and event.is_action_released("game_drag"):
+			if action_trigger == Trigger.HOLD and event.is_action_pressed(action)\
+			or action_trigger == Trigger.TOGGLE and event.is_action_released(action):
 
 				var node := get_node(target)
 
@@ -49,7 +49,7 @@ func _input(event : InputEvent) -> void:
 
 		State.DRAGGING:
 
-			if event.is_action_released("game_drag"):
+			if event.is_action_released(action):
 
 				var pos := Vector2(event.position) / get_viewport().size
 

@@ -182,7 +182,6 @@ func _get_property_list():
 
 func _update() -> void:
 
-	if Engine.is_editor_hint(): return
 	if not has_node(target): return
 
 	var target_pos : Vector3 = get_node(target).global_transform.origin
@@ -231,6 +230,8 @@ func _ready() -> void:
 
 func _process(delta) -> void:
 
+	_update()
+
 	if Engine.is_editor_hint(): return
 	if not input_button_input: return
 
@@ -259,5 +260,3 @@ func _process(delta) -> void:
 	elif Input.is_action_just_released(input_action_zoom_out):
 
 		zoom_value += d * zoom_step
-
-	_update()
